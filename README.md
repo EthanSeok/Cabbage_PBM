@@ -1,9 +1,9 @@
 ## Cabbage_PBM 2023
 
 ### Directory
+* excel: excel을 이용하여 파라미터 관계 구현
 * ipynb: Jupyter Notebook을 이용하여 각 함수 분리
 * model: python cabbage model
-* excel: excel을 이용하여 모델 구현
 
 ### 배추 모형 소개
 * https://docs.google.com/presentation/d/1mzTl4Q0dJcN_K1I_d30VK1Oqns8d3dC_/edit
