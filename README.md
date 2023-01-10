@@ -1,6 +1,5 @@
 ## Cabbage_PBM 2023
 
----
 
 ### 배추 모형 소개
 * https://docs.google.com/presentation/d/1mzTl4Q0dJcN_K1I_d30VK1Oqns8d3dC_/edit
