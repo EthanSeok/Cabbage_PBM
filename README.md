@@ -1,6 +1,7 @@
 ## Cabbage_PBM 2023
 
 ### Directory
+* colab: google colab에서 실행할 수 있습니다. 해당 파일을 다운로드 한 후 구글 드라이브에 업로드 후 사용합니다.
 * excel: excel을 이용하여 파라미터 관계 구현
 * ipynb: Jupyter Notebook을 이용하여 각 함수 분리
 * model: python cabbage model
