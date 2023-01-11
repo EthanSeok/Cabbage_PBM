@@ -383,8 +383,8 @@ class Facade(object):
         out_gasex_param = pd.DataFrame(self.gasex_parameter).set_index('datetime') # 파라미터 추출용
 
         out_test.to_csv('output/check_hour.csv')
-        out_growth_param.to_csv('../jupyter_test/growth/growth_param.csv')
-        out_gasex_param.to_csv('../jupyter_test/gasexchange/gasex_param.csv')
+        out_growth_param.to_csv('../ipynb/growth/growth_param.csv')
+        out_gasex_param.to_csv('../ipynb/gasexchange/gasex_param.csv')
 
         aggrigation = { 'dvs':'mean', 'LN' : 'mean', 'lai' : 'mean', 'pltDW':'mean', 'pltFW':'mean', 
                        'lossPer':'mean', 'realFW':'mean', 'bolting':'mean' }

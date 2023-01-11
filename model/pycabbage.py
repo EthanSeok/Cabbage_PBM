@@ -108,7 +108,7 @@ def run():
 #    lnratio = float(input('? ratio of leaf number(default = 0.78) : '))
 
     latitude = 37.0
-    inifile = 'input/ricca_test_wind0.csv'
+    inifile = 'input/ricca17.csv'
     dorh = 'h'
     outfile = 'output/ricca17_test_result.csv'
     start = '2017-9-20'
