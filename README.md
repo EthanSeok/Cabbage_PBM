@@ -22,3 +22,5 @@
 * https://drive.google.com/drive/u/0/folders/1mekGsuVuFpZEJHBl8deoruriqCcAf1kO
 
 
+### 배추 모형 파라미터 확인
+* https://drive.google.com/drive/u/0/folders/1nys0_ah4RvwPSNoYy0SheOZUPtwiWxba
