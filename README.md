@@ -30,7 +30,7 @@
 
 
 
-## 모델 수정사항
+## 모델 오류 수정사항
 * fraction.py의 sun inclination 오류 정정
 
 
