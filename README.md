@@ -46,7 +46,7 @@ incl = np.arcsin(sin_a + cos_b * np.cos(ha))
 ```
 
 
-(de Fury, 1997)[https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1365-3040.1997.00094.x]에서 
+[de Fury, 1997](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1365-3040.1997.00094.x)에서 
 
 
 <br>
