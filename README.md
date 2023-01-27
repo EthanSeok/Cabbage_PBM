@@ -75,7 +75,7 @@ incl = np.arcsin(sin_a + cos_b * np.cos(ha))
 ```
 
 
-**해당 결과를  arcsin이 맞음을 검증.**
+**해당 결과를 통해 arcsin이 맞음을 검증.**
 
 <br>
 
