@@ -49,15 +49,33 @@ incl = np.arcsin(sin_a + cos_b * np.cos(ha))
 (de Fury, 1997)[https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1365-3040.1997.00094.x]에서 
 
 
-<img src='https://user-images.githubusercontent.com/93086581/215049120-247c38fd-6a17-4e0c-a981-b64a841b9796.png'>
+<br>
 
 
 다음 부분을 참고하였음.
 
 
-* β는 sun elevation (inclination)을 의미하고, sinβ은 sun elevation anlgle을 의미함.
-* β값을 얻기 위해서는 arrcos가 아닌 arcsin을 해야함.
+<img src='https://user-images.githubusercontent.com/93086581/215049120-247c38fd-6a17-4e0c-a981-b64a841b9796.png'>
 
+
+<img src='https://user-images.githubusercontent.com/93086581/215054014-36ed868f-1740-44b5-89e4-f93fa7516775.png'>
+
+
+해당 예시를 참고하여 검증한 결과
+
+
+**arccos** 사용시 
+```
+0.4863155364642975
+```
+
+**arcsin** 사용시
+```
+0.8737832677463231
+```
+
+
+**해당 결과를  arcsin이 맞음을 검증.**
 
 <br>
 
