@@ -64,16 +64,17 @@ class Facade(object):
         headers = ['datetime', 'LN', 'lai', 'dvs', 'pltDW', 'pltFW', 'lossPer', 'realFW', 'bolting']
         res = {'datetime': [], 'LN': [], 'lai': [], 'dvs': [],
                # 'netTmm':[], 'crop_st':[],'soil_st':[], 'pmet':[], 'pmetc':[], 'pmets':[],
-               'pltDW': [], 'pltFW': [], 'lossPer': [], 'realFW': [], 'bolting': []}
+               'pltDW': [], 'pltFW': [], 'lossPer': [], 'realFW': [], 'bolting': [], 'An':[], 'Ci':[], 'Tleaf':[], 'PPFD':[]}
 
         check_headers = ['lai', 'Icsun', 'Icsh', 'laisun', 'laish', 'sunhgt', 'aAn', 'bAn', 'leaf', 'assim'] # 중간 점검 생성
-        check = {'datetime': [],'doy':[],'dap':[],'hour':[],'LN':[] ,'lai':[], 'Icsun':[], 'Icsh':[], 'laisun':[], 'laish':[], 'sunhgt':[], 'aAn':[], 'bAn':[], 'leaf':[], 'assim':[],'assimSum':[],'dvs': []} # 중간 점검 생성
+        check = {'datetime': [],'doy':[],'dap':[],'hour':[],'LN':[] ,'lai':[], 'Icsun':[], 'Icsh':[], 'laisun':[], 'laish':[], 'sunhgt':[], 'aAn':[], 'bAn':[], 'leaf':[], 'assim':[],'assimSum':[],'dvs': [], 'fgl':[]} # 중간 점검 생성
 
         growth_param = {'datetime':[], 'assim_c':[], 'ddage':[], 'mgl':[], 'mo':[], 'RM':[], 'tempRM':[], 'RMpr':[], 'fgl':[], 'fr':[], 'fo':[], 'fggl':[], 'fgr':[], 'fgo':[], 'GT':[], 'available':[], 'gr_gl':[],
                         'gr_r':[], 'gr_o':[], 'gr_dl':[], 'wgl':[], 'wr':[], 'wo':[], 'maint':[], 'rootd':[]}
 
         gasex_param = {'datetime':[], 'An':[], 'gsc':[],'newci':[], 'newtleaf':[], 'Cs':[], 'ah':[], 'bh':[], 'ch':[], 'hs':[],'es_Tleaf':[], 'Ds':[], 'gbw':[], 'gsw':[], 'gh':[], 'gv':[], 'gr':[], 'ghr':[],
-                       'thermal_air':[], 'RH_eb':[], 'D':[], 'Ea':[], 'Icabs':[], 'NIR':[], 'Rabs':[], 'slope':[], 'Tlnew':[], 'es_Tlnew':[], 'E':[], 'Emm':[], }
+                       'thermal_air':[], 'RH_eb':[], 'D':[], 'Ea':[], 'Icabs':[], 'NIR':[], 'Rabs':[], 'slope':[], 'Tlnew':[], 'es_Tlnew':[], 'E':[], 'Emm':[], 'Ansun':[], 'Ansh':[], 'Ci':[], 'Tleaf':[], 'Vcmax':[], 'Jmax':[],
+                       "Gammastar":[], 'Kc':[], 'Ko':[]}
 
         # run the model and after every run,
         print('\nRunning ...\n')
@@ -120,7 +121,7 @@ class Facade(object):
 
             # total assimilate
             Ictot = Irrad * 4.57 / 2  # from Wm-2 to umol m-2 s-1 and total Irrad to PAR
-            # print(Ictot)
+            # print(Ictot)`
             tot = self.gasEx
             tot.setValue(Ictot, Tair, RH, wind, predawn)
             tot.routine()
@@ -149,6 +150,9 @@ class Facade(object):
             An = self.gasEx.Ancheck # 파라미터 추출용
             gsc = self.gasEx.gsccheck # 파라미터 추출용
             # mid_Tleaf = self.gasEx.mid_Tleaf # 파라미터 추출용
+            Ci = self.gasEx.Ci
+            Tleaf = self.gasEx.Tleaf
+            # print(Tleaf)
             newci = self.gasEx.newci # 파라미터 추출용
             newtleaf = self.gasEx.newtleaf # 파라미터 추출용
             # gsc
@@ -178,6 +182,12 @@ class Facade(object):
             es_Tlnew = self.gasEx.es_Tlnew # 파라미터 추출용
             E = self.gasEx.E # 파라미터 추출용
             Emm = self.gasEx.Emm # 파라미터 추출용
+            Vcmax = self.gasEx.Vcmax
+            Jmax = self.gasEx.Jmax
+            Gammastar = self.gasEx.GammaStar
+            Kc = self.gasEx.Kc
+            Ko = self.gasEx.Ko
+
 
             #######################################################
 
@@ -188,7 +198,7 @@ class Facade(object):
             aWc = sun.Wc
             aWj = sun.Wj
             aAn = sun.An
-            # print('{:.20f}'.format(aAn))
+
 
             # for shaded leaves
             shd = self.gasEx
@@ -204,6 +214,7 @@ class Facade(object):
             # print(assim)
             self.assimSum += assim  # assimilate summation
             self.assim = assim  # hourly assimilate, CH2O g m-2gr hr-1
+            # print(self.assimSum)
 
             # partitioning assimilates
             part = self.growth
@@ -242,6 +253,7 @@ class Facade(object):
             # DW per plant
             pltDW = leaf / self.plantDensity
 
+            # print(leaf)
             # convert DW to FW
             # FDratio = 0.1632 * leafNumber + 11.049
             # FDratio  = 6.949*np.log(leafNumber) - 6.5953
@@ -249,6 +261,7 @@ class Facade(object):
             leafNumber = self.leafNumber
             FDratio = 6.949 * np.log(leafNumber) - 6.5953                                  ####### 2021 워싱턴대에서 변경 ############
             pltFW = FDratio * pltDW                                                        ##   * self.hi  -> 삭제   """
+            # print(pltDW)
 
             ## loss by Heat or Disease
             # determine wet or dry regime  (for 7 days after rain and rh > 98
@@ -287,6 +300,10 @@ class Facade(object):
             res['lossPer'].append(lossPer)
             res['realFW'].append(realFW)
             res['bolting'].append(bolting)
+            res['An'].append(An)
+            res['Ci'].append(Ci)
+            res['Tleaf'].append(Tleaf)
+            res['PPFD'].append(Ictot)
 
             # 중간 점검 생성
             check['datetime'].append(i)
@@ -306,6 +323,8 @@ class Facade(object):
             check['assim'].append(assim)
             check['dvs'].append(dvs)
             check['assimSum'].append(self.assimSum)
+            check['fgl'].append(fgl)
+
 
             growth_param['datetime'].append(i)
             growth_param['rootd'].append(rootd)
@@ -363,6 +382,16 @@ class Facade(object):
             gasex_param['es_Tlnew'].append(es_Tlnew)
             gasex_param['E'].append(E)
             gasex_param['Emm'].append(Emm)
+            gasex_param['Ansun'].append(aAn)
+            gasex_param['Ansh'].append(bAn)
+            gasex_param['Ci'].append(Ci)
+            gasex_param['Tleaf'].append(Tleaf)
+            gasex_param['Vcmax'].append(Vcmax)
+            gasex_param['Jmax'].append(Jmax)
+            gasex_param['Gammastar'].append(Gammastar)
+            gasex_param['Kc'].append(Ko)
+            gasex_param['Ko'].append(Ko)
+
 
             self.hourresult = res  # store the model results
             self.checkresult = check # 중간 점검 생성
@@ -382,19 +411,19 @@ class Facade(object):
         out_growth_param = pd.DataFrame(self.growth_parameter).set_index('datetime') # 파라미터 추출용
         out_gasex_param = pd.DataFrame(self.gasex_parameter).set_index('datetime') # 파라미터 추출용
 
-        out_test.to_csv('output/check_hour.csv')
-        out_growth_param.to_csv('../ipynb/growth/growth_param.csv')
-        out_gasex_param.to_csv('../ipynb/gasexchange/gasex_param.csv')
+        out_test.to_csv('output/check_hour.csv') # 파라미터 추출용
+        out_growth_param.to_csv('../ipynb/growth/growth_param.csv') # 파라미터 추출용
+        out_gasex_param.to_csv('../ipynb/gasexchange/gasex_param.csv') # 파라미터 추출용
 
         aggrigation = { 'dvs':'mean', 'LN' : 'mean', 'lai' : 'mean', 'pltDW':'mean', 'pltFW':'mean', 
-                       'lossPer':'mean', 'realFW':'mean', 'bolting':'mean' }
+                       'lossPer':'mean', 'realFW':'mean', 'bolting':'mean' ,'An':'mean', 'Ci':'mean', 'Tleaf':'mean', 'PPFD':'mean'}
         self.dayresult = out.groupby(out.index.date).agg(aggrigation)
         # self.timeresult = out_test # 중간 점검 생성
 
 
         # write df to various file
-        cols = ['dvs', 'LN', 'lai', 'pltDW', 'pltFW', 'realFW', 'lossPer', 'bolting']
-        header  = ['dvs', 'leaf.number', 'LAI', 'DW(g/m2)', 'pot.FW(g)', 'real.FW(g)', 'loss(%)', 'bolting']
+        cols = ['dvs', 'LN', 'lai', 'pltDW', 'pltFW', 'realFW', 'lossPer', 'bolting', 'An', "Ci", "Tleaf", "PPFD"]
+        header  = ['dvs', 'leaf.number', 'LAI', 'DW(g/m2)', 'pot.FW(g)', 'real.FW(g)', 'loss(%)', 'bolting','An', "Ci", "Tleaf", 'PPFD']
 
         # check_cols = ['lai', 'Icsun', 'Icsh', 'laisun', 'laish', 'sunhgt', 'aAn', 'bAn', 'leaf', 'assim'] # 중간 점검 생성
         # check_headers = ['lai', 'Icsun', 'Icsh', 'laisun', 'laish', 'sunhgt', 'aAn', 'bAn', 'leaf', 'assim'] # 중간 점검 생성
