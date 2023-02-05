@@ -19,7 +19,7 @@
 
 
 ### 레퍼런스
-* https://drive.google.com/drive/u/0/folders/1mekGsuVuFpZEJHBl8deoruriqCcAf1kO
+* https://drive.google.com/drive/u/0/folders/1opr1q38xW6uWc002nPbcKC6waExuqCJo
 
 
 ### 배추 모형 파라미터 확인 - google colab
