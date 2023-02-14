@@ -31,7 +31,7 @@
 
 
 ### 모델 오류 수정사항
-#### fraction.py의 sun inclination 오류 정정
+#### fraction.py의 sun inclination 수정사항
 
 
 ```
@@ -72,7 +72,7 @@ incl = np.arcsin(sin_a + cos_b * np.cos(ha))
 `0.8737832677463231`
 
 
-**해당 결과를 통해 arcsin이 맞음을 검증.**
+**해당 결과를 통해 arcsin이 보다 적합하다고 판단.**
 
 <br>
 
@@ -121,3 +121,5 @@ incl = np.arcsin(sin_a + cos_b * np.cos(ha))
 
 
 * max 사용시 DW 및 FW의 결과가 매우 낮았음. min으로 수정한 결과 보다 합리적인 결과가 도출됨.
+
+* 해당 결과를 통해 min 사용이 더 적합하다고 판단.
