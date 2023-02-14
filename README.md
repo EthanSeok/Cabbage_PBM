@@ -107,8 +107,6 @@ incl = np.arcsin(sin_a + cos_b * np.cos(ha))
     def calcVerdvs(self, Ta):
         Ta  = max(Ta, 0.01)
         rate = np.exp(-1*(np.log(Ta/optVer)**4))
-        # rate = 0.5
-        # print(rate)
         self.sumVer += rate * conv
         self.verdvs = min(1, self.sumVer/satVer)
 ```
