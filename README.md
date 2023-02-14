@@ -30,8 +30,8 @@
 
 
 
-## 모델 오류 수정사항
-* fraction.py의 sun inclination 오류 정정
+### 모델 오류 수정사항
+#### fraction.py의 sun inclination 오류 정정
 
 
 ```
@@ -65,14 +65,11 @@ incl = np.arcsin(sin_a + cos_b * np.cos(ha))
 
 
 **arccos** 사용시 
-```
-0.4863155364642975
-```
+`0.4863155364642975`
+
 
 **arcsin** 사용시
-```
-0.8737832677463231
-```
+`0.8737832677463231`
 
 
 **해당 결과를 통해 arcsin이 맞음을 검증.**
@@ -90,3 +87,37 @@ incl = np.arcsin(sin_a + cos_b * np.cos(ha))
 
 
 <img src='https://user-images.githubusercontent.com/93086581/215050700-05b4d99b-8459-4968-bd5d-d6b19ccf8616.png'>
+
+
+#### stage.py의 calcVerdvs 수정사항
+
+```
+    def calcVerdvs(self, Ta):
+        Ta  = max(Ta, 0.01)
+        rate = np.exp(-1*(np.log(Ta/optVer)**4))
+        self.sumVer += rate * conv
+        self.verdvs = max(1, self.sumVer/satVer)
+```
+
+
+를 아래와 같이 수정
+
+
+```
+    def calcVerdvs(self, Ta):
+        Ta  = max(Ta, 0.01)
+        rate = np.exp(-1*(np.log(Ta/optVer)**4))
+        # rate = 0.5
+        # print(rate)
+        self.sumVer += rate * conv
+        self.verdvs = min(1, self.sumVer/satVer)
+```
+
+**blue: max()사용, orange: min() 사용**
+<img src='https://user-images.githubusercontent.com/93086581/218774407-05eb7429-51fc-4c8c-bdbf-0ad55f0b7984.png'>
+
+
+* `self.verdvs = max(1, self.sumVer/satVer)` 부분에서 max를 사용할 시 verdvs의 최소가 1이 되므로 bolting 시기가 매우 앞당겨짐. 따라서 이를 min으로 수정하여 bolting 시기 정정
+
+
+* max 사용시 DW 및 FW의 결과가 매우 낮았음. min으로 수정한 결과 보다 합리적인 결과가 도출됨.
