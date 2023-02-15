@@ -85,6 +85,8 @@ class Fractionation():
         incl = np.arcsin(sin_a + cos_b * np.cos(ha))           # sun inclination   rad
         # print(np.sin(incl))
         sunhgt = max(0.05, np.pi / 2 - incl)                   # solar height   rad
+        sunhgt = np.arcsin(max(0.05,sin_a + cos_b * np.cos(ha)))                    # solar height   rad
+        print(sunhgt)
         kb = 0.5/np.sin(sunhgt) * clump                          # beam radiation extinction coeff  0.5 <- clumping
         # print(kb)
         kbprime = 0.46/np.sin(sunhgt)                          # beam + scattered beam PAR ext coeff
@@ -139,6 +141,7 @@ class Fractionation():
         cos_b = np.cos(decl)*np.cos(self.lat)
         incl = np.arcsin(sin_a + cos_b * np.cos(ha))           # sun inclination   rad
         sunhgt = max(0.05, np.pi / 2 - incl)                   # solar height   rad
+        sunhgt = np.arcsin(max(0.05, sin_a + cos_b * np.cos(ha)))
         # print(sunhgt)
         kb = 0.5/np.sin(sunhgt)  * clump                              # beam radiation extinction coeff  0.5 <- clumping
         laiSun = (1 - np.exp(-kb * lai)) / kb
@@ -160,6 +163,7 @@ class Fractionation():
         cos_b = np.cos(decl)*np.cos(self.lat)
         incl = np.arcsin(sin_a + cos_b * np.cos(ha))           # sun inclination   rad
         sunhgt = max(0.05, np.pi / 2 - incl)                   # solar height   rad
+        sunhgt = np.arcsin(max(0.05, sin_a + cos_b * np.cos(ha)))
         kb = 0.5/np.sin(sunhgt)  * clump                             # beam radiation extinction coeff  0.5 <- clumping
 
         Vcmaxtot = lai * Xn * (No-Nb) * (1-np.exp(-kn)) / kn   # Vcmax of whole canopy umol m-2 -s
