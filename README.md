@@ -145,6 +145,6 @@ sunhgt = np.arcsin(max(0.05(sin_a + cos_b * np.cos(ha)))
 * `self.verdvs = max(1, self.sumVer/satVer)` 부분에서 max를 사용할 시 verdvs의 최소가 1이 되므로 bolting 시기가 매우 앞당겨짐. 따라서 이를 min으로 수정하여 bolting 시기 정정
 
 
-* max 사용시 DW 및 FW의 결과가 매우 낮았음. min으로 수정한 결과 보다 합리적인 결과가 도출됨.
+* max 사용시 DW 및 FW의 결과가 매우 낮았음. min으로 수정한 결과, 보다 합리적인 결과가 도출됨.
 
 * 해당 결과를 통해 min 사용이 더 적합하다고 판단.
