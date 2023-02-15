@@ -137,7 +137,7 @@ sunhgt = np.arcsin(max(0.05(sin_a + cos_b * np.cos(ha)))
 ```
 
 
-<img src='https://user-images.githubusercontent.com/93086581/218774407-05eb7429-51fc-4c8c-bdbf-0ad55f0b7984.png'>
+<img src='https://user-images.githubusercontent.com/93086581/218971875-cc48db2b-d6bf-4396-9fcc-44b10b1cbe42.png'>
 
 
 <span style="color:blue">blue</span>: max()사용 , 
