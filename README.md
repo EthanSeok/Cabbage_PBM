@@ -133,8 +133,12 @@ incl = np.arcsin(max(0.05(sin_a + cos_b * np.cos(ha)))
         self.verdvs = min(1, self.sumVer/satVer)
 ```
 
-**blue: max()사용, orange: min() 사용**
+
 <img src='https://user-images.githubusercontent.com/93086581/218774407-05eb7429-51fc-4c8c-bdbf-0ad55f0b7984.png'>
+
+<span style="color:blue">blue</span>: max()사용 , 
+<span style='color:orange'>orange</span>: min() 사용
+
 
 
 * `self.verdvs = max(1, self.sumVer/satVer)` 부분에서 max를 사용할 시 verdvs의 최소가 1이 되므로 bolting 시기가 매우 앞당겨짐. 따라서 이를 min으로 수정하여 bolting 시기 정정
