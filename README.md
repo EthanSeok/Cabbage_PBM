@@ -77,9 +77,9 @@ incl = np.arcsin(sin_a + cos_b * np.cos(ha))
 <br>
 
 
-**(좌) arccos을 한 경우**    **(우) arcsin을 한 경우**
+**(좌) arccos을 한 경우 (24시간)**    **(우) arcsin을 한 경우 (24시간)**
 
-![image.jpg1](https://user-images.githubusercontent.com/93086581/215050529-1d98c1d2-fb43-4a2c-9f5e-cad83b30cc35.png) |![image.jpg2](https://user-images.githubusercontent.com/93086581/215050700-05b4d99b-8459-4968-bd5d-d6b19ccf8616.png)
+![image.jpg1](https://user-images.githubusercontent.com/93086581/218964817-eae2d83d-eecf-4263-baf1-90629222d981.png) |![image.jpg2](https://user-images.githubusercontent.com/93086581/218964827-b5539969-6ba5-4998-8ccf-30ed955fd269.png)
 --- | --- | 
 
 
