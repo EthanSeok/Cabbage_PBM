@@ -77,16 +77,38 @@ incl = np.arcsin(sin_a + cos_b * np.cos(ha))
 <br>
 
 
-**arccos을 한 경우** 
+**(좌) arccos을 한 경우**    **(우) arcsin을 한 경우**
+
+![image.jpg1](https://user-images.githubusercontent.com/93086581/215050529-1d98c1d2-fb43-4a2c-9f5e-cad83b30cc35.png) |![image.jpg2](https://user-images.githubusercontent.com/93086581/215050700-05b4d99b-8459-4968-bd5d-d6b19ccf8616.png)
+--- | --- | 
 
 
-<img src='https://user-images.githubusercontent.com/93086581/215050529-1d98c1d2-fb43-4a2c-9f5e-cad83b30cc35.png'>
+
+<br>
+
+**하지만 아래 그래프와 같이 arccos를 arcsin으로 변경시 sunhgt 값이 적합하지 않은 결과를 보임.**
 
 
-**arcsin을 한 경우**
+<img src='https://user-images.githubusercontent.com/93086581/218955037-11390f35-b07d-4811-bfce-07cb0a401775.png'>
+ 
+ 
+<br>
 
 
-<img src='https://user-images.githubusercontent.com/93086581/215050700-05b4d99b-8459-4968-bd5d-d6b19ccf8616.png'>
+확인한 결과 arccos을 사용했을 때의 sunhgt와 arcsin을 사용했을 때의 incl이 동일함을 확인.
+
+**(좌) arccos 사용시 sunhgt**, **(중) arcsin 사용시 incl**, **(우) arcsin 사용 및 max(0.05) 사용시 incl**
+![image.jpg1](https://user-images.githubusercontent.com/93086581/218956957-89c3ca4a-dfe1-4fd6-8222-90c3b68e3944.png) |![image.jpg2](https://user-images.githubusercontent.com/93086581/218956977-ba07b0e5-b767-44d7-af77-444587b413ea.png) |![image.jpg3](https://user-images.githubusercontent.com/93086581/218957684-0f3faeb8-3eb4-4aa3-bf69-98ba47f5638a.png)
+--- | --- | --- |
+
+<img src='https://user-images.githubusercontent.com/93086581/218959176-b1d1eea3-5086-4647-a541-31dfde742718.png'>
+
+따라서 최종적으로 다음과 같이 수정함.
+
+
+```
+incl = np.arcsin(max(0.05(sin_a + cos_b * np.cos(ha)))
+```
 
 
 #### stage.py의 calcVerdvs 수정사항
