@@ -28,6 +28,7 @@
 
 <br>
 
+---
 
 
 ### 모델 오류 수정사항
@@ -109,6 +110,8 @@ incl = np.arcsin(sin_a + cos_b * np.cos(ha))
 ```
 sunhgt = np.arcsin(max(0.05(sin_a + cos_b * np.cos(ha)))
 ```
+
+---
 
 
 #### stage.py의 calcVerdvs 수정사항
