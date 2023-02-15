@@ -107,7 +107,7 @@ incl = np.arcsin(sin_a + cos_b * np.cos(ha))
 
 
 ```
-incl = np.arcsin(max(0.05(sin_a + cos_b * np.cos(ha)))
+sunhgt = np.arcsin(max(0.05(sin_a + cos_b * np.cos(ha)))
 ```
 
 
