@@ -146,3 +146,16 @@ sunhgt = np.arcsin(max(0.05(sin_a + cos_b * np.cos(ha)))
 * max 사용시 DW 및 FW의 결과가 매우 낮았음. min으로 수정하니, 보다 합리적인 결과가 도출됨.
 
 * 해당 결과를 통해 min 사용이 더 적합하다고 판단.
+
+### 챔버환경 적용사항
+* 챔버환경 적용을 위한 fraction.py의 광 환경을 다음과 같이 조정함.
+
+```
+sunhgt = np.arcsin(max(0.05,sin_a + cos_b * np.cos(ha)))
+        if sunhgt > 0.051: sunhgt = 1
+```
+
+<img src = 'https://user-images.githubusercontent.com/93086581/219265396-5feb0016-f202-406a-88b6-eff55d4a004c.png'>
+
+* 광량에 따른 LAI의 변화 ==> An 값 변화로 인하여 DW 및 FW에만 변가 있었음.
+* 챔버 환경인 300µmol로 고정시 DW및 FW 저하
