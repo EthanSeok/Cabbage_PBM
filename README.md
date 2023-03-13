@@ -155,6 +155,9 @@ sunhgt = np.arcsin(max(0.05,sin_a + cos_b * np.cos(ha)))
         if sunhgt > 0.051: sunhgt = 1
 ```
 
+![image](https://user-images.githubusercontent.com/93086581/224602314-55be6012-3421-4cf7-916a-8a9e4b9d1e8e.png)
+
+
 <img src = 'https://user-images.githubusercontent.com/93086581/219265396-5feb0016-f202-406a-88b6-eff55d4a004c.png'>
 
 * 광량에 따른 LAI의 변화 ==> An 값 변화로 인하여 DW 및 FW에만 변가 있었음.
