@@ -29,7 +29,7 @@ ifr    = [0.08, 0.07, 0.05, 0.00, 0.00, 0.00]         # root ratio
 ifo    = [0.00, 0.00, 0.01, 0.30, 1.00, 1.00]
 
 ## ratio to DM / CH2O
-cd     = 1.125         # factor convert mass to CH2O weight, = mass * 45%C / C_MW * CH2O_MW
+cd     = 1.125         # factor convert mass to CH2O weght, = mass * 45%C / C_MW * CH2O_MW
 
 ## ratio of fresh weight to dry weight of leaf
 FDR    = 16.76
@@ -51,14 +51,11 @@ class Growth(object):
     def growCalc(self, Ta, assim, dvs, RDT=1.0):
 #        import pdb; pdb.set_trace()
         corr = 1 / 24
-        assim_c = assim * RDT     # reduced by water stress
-
-        # print(assim_c)
+        assim_c = assim * RDT     # reduced by water stress 
     
         ## root depth by elongation (m)
         rgrow = min(dm, dg * RDT ) * corr
         self.rootd += rgrow
-        self.assim_c = assim_c  # 파라미터 추출용
         
         ## leaf death rate by old age(dvs > 1.0)
         ddage = 0.0
@@ -68,83 +65,46 @@ class Growth(object):
             ddage = 0.05 / 0.1
         else:
             ddage = 0.0
-        # print(ddage)
         ddage = ddage * conv
-        self.ddage = ddage # 파라미터 추출용
-        # print(ddage)
+        
 
 
         ## calculaltion green leaves, death laeves, stem, root, storage (g CH2O)
         wgl = self.wgl
-        # print(wgl)
         wr = self.wr
         wo = self.wo
         
         #### calculation of maintenances respiration (g CH2O)
         mgl = wgl * kgl
-        # print(wgl)
         mr  = wr * kr
         mo  = wo * ko
         RM = mgl + mo
-        # print(RM)
         tempRM = RM * 2 **((Ta - 20)/10)  # temperature   from Teh
-        # print(tempRM)
         tempRM = tempRM * corr            # from per day to per hour 
         RMpr = min(tempRM, assim_c)
-        # print(RMpr)
-        self.mgl = mgl # 파라미터 추출용
-        self.mo = mo # 파라미터 추출용
-        self.RM = RM # 파라미터 추출용
-        self.tempRM = tempRM # 파라미터 추출용
-        self.RMpr = RMpr # 파라미터 추출용
        
         
         ### calculation of growth respiration (g CH2O)
         fgl = np.interp(dvs, istage, ifgl)
-        # print(fgl)
         fr  = np.interp(dvs, istage, ifr)
-        # print(fr)
         fo  = np.interp(dvs, istage, ifo)
-        # print(fo)
-
-        self.fgl = fgl # 파라미터 추출용
-        self.fr = fr # 파라미터 추출용
-        self.fo = fo # 파라미터 추출용
-
+        
         # nomalization of all partitioning
         fggl = fgl * ggl
         fgr  = fr  * gr
         fgo  = fo  * go
         GT = fggl + fgr + fgo
-        # print(GT)
-
-        self.fggl = fggl # 파라미터 추출용
-        self.fgr = fgr # 파라미터 추출용
-        self.fgo = fgo # 파라미터 추출용
-        self.GT = GT # 파라미터 추출용
 
         available = (assim_c - RMpr) / GT      # available assim per hour (g DW)
-        # print(available)
 
         available *= 0.84
 
-        self.available = available # 파라미터 추출용
-        # print(self.available)
-
         gr_gl = fgl * available     # for green leaves DW
-        # print(gr_gl)
         gr_r  = fr  * available     # for root DW
         gr_o  = fo  * available     # for rep. organ
         gr_dl = ggl * ddage         # death leaf weight by aging
-
-        self.gr_gl = gr_gl # 파라미터 추출용
-        self.gr_r = gr_r # 파라미터 추출용
-        self.gr_o = gr_o # 파라미터 추출용
-        self.gr_dl = gr_dl # 파라미터 추출용
-
 
         self.wgl += (gr_gl - gr_dl)
         self.wr  += gr_r
         self.wo  += gr_o
         self.maint = assim_c - available 
-        # print(self.wgl)

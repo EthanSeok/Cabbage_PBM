@@ -66,10 +66,8 @@ Example:
 
 """
 import sys
+import datetime
 from facade import Facade   
-import pandas as pd
-from matplotlib import dates
-import matplotlib.pyplot as plt
 
 def run():
     """Main entry point for the program.
@@ -80,51 +78,34 @@ def run():
 
     # set the accepted flags, and parse the options and arguments:
     inifile = outfile = None
-    # print(a)
-    # print(b)
-    # print("\nLet's try model working!!")
-    # print("\n=== Set simulation conditions. === ")
-    # latitude  = float(input("? latitude(default = 37.0) : ") or "37.0")
-    # inifile   = input("? weather file name(including extension) : ")
-    # dorh      = input("? is weather data daily(d) or hourly(h) : ")
-    # outfile   = input("? output file name(including extension) : ")
-    # start     = input("? planting date(YYYY-mm-dd) : ")
-    # end       = input("? end date(YYYY-mm-dd) : ")
-    #
-    # sp_start = start.split('-')
-    # sp_end   = end.split('-')
-    # if len(sp_start) < 3 and len(sp_end) < 3 :
-    #     raise Exception("Planting date format is YYYY-mm-dd ")
-    #
-    # # set growing condition
-    # print("\n=== Set initial condition.===")                                                               ####### 2021 워싱턴대에서 변경 ############
-    # density  = float(input('? planting density(plants/m2, default = 3.8) : ') or "3.8")             ## 4.0 -> 3.8 로 변경 (고랭지 평균)
-    # iniLN    = float(input('? leaf number at planting(default = 6) : ') or "6.0")                          ## 8.0 -> 6.0 으로 변경
-    # daysRoot = float(input('? days for root adaptation after transplanting(default = 10) : ') or "10.0")           ## 정식 후 활착 기간 (평균 14일)
-    # pLeafForm = float(input('? suppression parameter for leaf formation rate(default = 0.69): ') or "0.69")     ## 일엽생성속도 장해 계수(0~1), 춘광 0.69
+    print(a)
+    print(b)
+    print("\nLet's try model working!!")
+    print("\n=== Set simulation conditions. === ")
+    latitude  = float(input("? latitude(default = 37.0) : ") or "37.0")
+    inifile   = input("? weather file name(including extension) : ")
+    dorh      = input("? is weather data daily(d) or hourly(h) : ")
+    outfile   = input("? output file name(including extension) : ")
+    start     = input("? planting date(YYYY-mm-dd) : ")
+    end       = input("? end date(YYYY-mm-dd) : ")
+    
+    sp_start = start.split('-')
+    sp_end   = end.split('-')
+    if len(sp_start) < 3 and len(sp_end) < 3 : 
+        raise Exception("Planting date format is YYYY-mm-dd ")
+    
+    # set growing condition
+    print("\n=== Set initial condition.===")                                                               ####### 2021 워싱턴대에서 변경 ############
+    density  = float(input('? planting density(plants/m2, default = 3.8) : ') or "3.8")             ## 4.0 -> 3.8 로 변경 (고랭지 평균)
+    iniLN    = float(input('? leaf number at planting(default = 6) : ') or "6.0")                          ## 8.0 -> 6.0 으로 변경
+    daysRoot = float(input('? days for root adaptation after transplanting(default = 10) : ') or "10.0")           ## 정식 후 활착 기간 (평균 14일)
+    pLeafForm = float(input('? suppression parameter for leaf formation rate(default = 0.69): ') or "0.69")     ## 일엽생성속도 장해 계수(0~1), 춘광 0.69
 
     # calculation condition
 #    print("\n=== Set ratio of apparent leaf number.===")
 #    lnratio = float(input('? ratio of leaf number(default = 0.78) : '))
 
-    latitude = 37.0
-    inifile = 'input/ricca17.csv'
-    dorh = 'h'
-    outfile = 'output/ricca17_test_result.csv'
-    start = '2017-9-20'
-    end = '2017-12-30'
-
-    sp_start = start.split('-')
-    sp_end = end.split('-')
-    if len(sp_start) < 3 and len(sp_end) < 3:
-        raise Exception("Planting date format is YYYY-mm-dd ")
-
-    density = 3.8
-    iniLN = 6
-    daysRoot = 10
-    pLeafForm = 0.69
-
-
+    
     if None in [inifile, outfile]:
         print('One or more parameters are missing.')
         print(__doc__)
@@ -135,48 +116,5 @@ def run():
                    pLeafForm=pLeafForm, daysRoot=daysRoot) 
     model.run()
 
-    # inputfile = pd.read_csv(inifile)
-    origin = pd.read_csv('output/test_normal.csv')
-    diff = pd.read_csv(outfile)
-
-    # print(origin)
-    out = origin.merge(diff, how='left', on='Unnamed: 0').set_index('Unnamed: 0')
-
-    fig, ax = plt.subplots(3, 2, figsize=(10, 10),gridspec_kw={"wspace":0.15, "hspace":0.2}, sharex=True)
-    # plt.subplot(3, 2, 1).title.set_text('dvs')
-    ax[0, 0].title.set_text('dvs')
-    ax[0, 0].plot(out[['dvs_x', 'dvs_y']])
-    ax[0, 0].set_xticks(ticks=out.index)
-    # ax[2, 0].tick_params(labelrotation=45, labelsize=7)
-    for tick in ax[2,0].get_xticklabels():
-        tick.set_rotation(45)
-    for tick in ax[2,1].get_xticklabels():
-        tick.set_rotation(45)
-    ax[2, 0].xaxis.set_major_locator(dates.WeekdayLocator(interval=3))
-    ax[2, 1].xaxis.set_major_locator(dates.WeekdayLocator(interval=3))
-
-    plt.subplot(3, 2, 2).title.set_text('leaf_number')
-    plt.plot(out[['leaf.number_x', 'leaf.number_y']])
-
-    plt.subplot(3, 2, 3).title.set_text('LAI')
-    plt.plot(out[['LAI_x', 'LAI_y']])
-
-    plt.subplot(3, 2, 4).title.set_text('DW')
-    plt.plot(out[['DW(g/m2)_x', 'DW(g/m2)_y']])
-
-    plt.subplot(3, 2, 5).title.set_text('FW')
-    plt.plot(out[['pot.FW(g)_x', 'pot.FW(g)_y']])
-
-    plt.subplot(3, 2, 6).title.set_text('bolting')
-    plt.plot(out[['bolting_x', 'bolting_y']])
-
-    # print()
-
-    plt.savefig('graph/결과비교.png')
-
-    out.to_csv('output/difference.csv')
-
-
 if __name__ == '__main__':
     run()
-

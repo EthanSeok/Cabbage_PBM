@@ -30,7 +30,6 @@ class Disease(object):
         if wet and Tair > 0:
             # use modified lognormal function
             rate  = np.exp(-1*(np.log(Tair/100))**4) * conv
-            # print(rate)
         else :
             rate  = 0
 

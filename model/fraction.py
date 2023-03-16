@@ -17,7 +17,7 @@ conv    = 4.57      # conversion from W m-2 to umol m-2 s-1
 Po      = 101.3     # atomopheric pressure at sea level  kPa 
 
 ### Parameters of Chinese cabbage
-Nb      = 25         # residual leaf N content (about 0.5% N) mmol m-2  from de Pury(1997)
+Nb      = 25         # residual leaf N content (abour 0.5% N) mmol m-2  from de Pury(1997) 
 No      = 137        # leaf N content of canopy top         mmol m-2
 Nl      = 120        # leaf N content per unit leaf area    mmol m-2
 kn      = 0.713      # coefficient for leaf N allocation             
@@ -33,7 +33,6 @@ clump   = 0.5
 ############################################################################################################
 
 import numpy as np
-import matplotlib.pyplot as plt
 
 class Fractionation():
     
@@ -54,9 +53,6 @@ class Fractionation():
         # Output (rubisco)
         self.VcmaxSun = 0.0  # rubisco for sunlit leaf
         self.VcmaxSh  = 0.0  # rubisco for shaded leaf
-
-        self.sunhgt = 0.0 # 중간 점검 생성
-
                 
     def radFraction(self, doy, hour, PPFD, LAI):   # from de Pury(1997) method
         ##################################################################################################
@@ -70,8 +66,7 @@ class Fractionation():
         sigma   = 0.15    # leaf scattering coeff for PAR (rhol + taul)
         kd      = 0.78 * clump   # diffuse PAR extinction coeff.             0.5 <- clumping
         kdprime = 0.719   # diffuse & scattered diffuse OAR ext coeff  
-
-
+        
         ## calc values
         decl = -0.4093 * np.cos(2 * np.pi * (doy + 10) / 365)  # sun declination   rad
         ha   = np.pi / 12 * (hour - 12)                        # hour angle   rad
@@ -80,20 +75,16 @@ class Fractionation():
         incl = np.arccos(sin_a + cos_b * np.cos(ha))           # sun inclination   rad
         sunhgt = max(0.05, np.pi / 2 - incl)                   # solar height   rad
         kb = 0.5/np.sin(sunhgt) * clump                          # beam radiation extinction coeff  0.5 <- clumping
-        # print(kb)
         kbprime = 0.46/np.sin(sunhgt)                          # beam + scattered beam PAR ext coeff
         rhocb = 1-np.exp(-2*rhoh*kb/(1+kb))                         # canopy reflec coeff for beam PAR
-        # print(rhocb)
         m = self.P / Po /np.sin(sunhgt)                        # optical air mass
         fd =(1-a**m)/(1+a**m * (1/fa-1))                            # fraction of diffuse irradiance
-        # print(sin_a)
         
         ###################################################################################################
         ## Calculation of PAP fractionation
         ## For rad fractionation, not consider scattering because it will consider in gasexchange step
         lai = LAI
-        # print(lai)
-        It = PPFD
+        It = PPFD          
         Id = It * fd                       # diffuse fraction of irradiance PAR umol m-2 s-1
         Ib = It - Id                       # beam fraction of irradiance PAR umol m-2 s-1
         ## for total leaves
@@ -107,7 +98,6 @@ class Fractionation():
         Icsc = Ib*((1-rhocb)*(1-np.exp(-(kbprime+kb)*lai))*kbprime/(kbprime+kb)- \
             (1-sigma)*(1-np.exp(-2*kb*lai))/2)             # absorbed scattered beam by sunlit leaves
         Icsun = Icdb + Icdf + Icsc
-        # print(Icsun)
         ## for shaded leaves
         Icshdf = Id*(1-rhocd)*(1-np.exp(-kdprime*lai)-(1-np.exp(-(kdprime+kb)*lai))* \
             kdprime/(kdprime+kb))                              # absorbed diffuse beam by shaded leaves
@@ -125,23 +115,18 @@ class Fractionation():
     ## LAI fractionation
     def laiFraction(self, doy, hour, LAI):
         lai = LAI
-        # print(lai)
         decl = -0.4093 * np.cos(2 * np.pi * (doy + 10) / 365)  # sun declination   rad
-        # print(decl)
         ha   = np.pi / 12 * (hour - 12)                        # hour angle   rad
         sin_a = np.sin(decl)*np.sin(self.lat)
         cos_b = np.cos(decl)*np.cos(self.lat)
         incl = np.arccos(sin_a + cos_b * np.cos(ha))           # sun inclination   rad
         sunhgt = max(0.05, np.pi / 2 - incl)                   # solar height   rad
-        # print(sunhgt)
         kb = 0.5/np.sin(sunhgt)  * clump                              # beam radiation extinction coeff  0.5 <- clumping
         laiSun = (1 - np.exp(-kb * lai)) / kb
         laiSh  = lai - laiSun
-
-        self.sunhgt = sunhgt    # 중간 점검 생성
         self.laiSun = laiSun    # LAI for sunlit leaf
         self.laiSh  = laiSh     # lai for shaded leaf
-
+        
     ####################################################################################################
     ## Rubisco fractionation
     def rubFraction(self, doy, hour, LAI, Vcmax=110):
@@ -162,4 +147,4 @@ class Fractionation():
         Vcsh  = Vcmaxtot - Vcsun                               # Vcmax of shaded leaves umol m-2 -s  
         
         self.VcmaxSun = Vcsun     # rubisco for sunlit leaf
-        self.VcmaxSh  = Vcsh      # rubisco for shaded leaf
+        self.VcmaxSh  = Vcsh      # rubisco for shaded leaf      

@@ -42,10 +42,10 @@ class DayToHour():
         df = df[start:end]
         idx = pd.to_datetime(df.index, format='%Y-%m-%d')                     ###  2021 calculate DAP and add column ####
         df['dap'] = (idx - start).days                                   ###  2021 calculate DAP and add culumn ####
-
+            
         # set weather data as DataFrame type
         self.dayData = df
-
+        
         # result of hourly data
         self.data = None
         

@@ -54,7 +54,6 @@ class BD():      # balting development
             leafRate = leafRate * conv
         else:
             leafRate = 0.0
-        # print(leafRate)
         return leafRate
     
     def earlyRateLN(self, Ta):
@@ -65,7 +64,7 @@ class BD():      # balting development
 ## 식물체 개체 수준의 녹엽면적만 계산(엽수 이용)
 
     def eachLenDistribution(self, leafnumber):  ## internal function
-        eachLenDist = []
+        eachLenDist = [] 
         if leafnumber < 8:                    ## limit of leafnumber 8장 보다 작을 경우 오류 방지
             for i in range(leafnumber):
                 eachLenDist.append(1.0)
@@ -75,26 +74,20 @@ class BD():      # balting development
             for i in range(1,leafnumber+1):
                 eachLen = a * np.exp(-0.5 * ((i - b) / b)**2)
                 eachLenDist.append(eachLen)
-        # print(eachLenDist)
         return eachLenDist
 
     def eachLeafArea(self, eachLenDist):       ## internal function
         eachLeafArea = [0.3512*each**2 + 1.1328*each for each in eachLenDist]
-        # print(eachLeafArea)
         return eachLeafArea
 
     def eachBladeArea(self, eachLeafArea):     ## internal function
         ratio = [0.9217*np.exp(-0.01*order) for order in range(1, len(eachLeafArea)+1)]
-        # print(ratio)
         eachBladeArea = [a*b for a, b in zip(ratio, eachLeafArea)]
-        # print(eachBladeArea)
         return eachBladeArea
 
     def numGreenLeaf(self, eachBladeArea):     ## internal function
         numberGL = 0.9333*np.exp(-0.017*len(eachBladeArea))*len(eachBladeArea)
-        # print(numberGL)
         numberGreenLeaf = int(numberGL)
-        # print(numberGreenLeaf)
         return numberGreenLeaf
 
     def plantGreenLeafArea(self, leafnumber):
@@ -103,9 +96,7 @@ class BD():      # balting development
         c = self.eachBladeArea(b)
         d = self.numGreenLeaf(c)
         greenBladeArea = c[0:d]
-        # print(greenBladeArea)
         greenLeafArea = sum(greenBladeArea)
-        # print(greenLeafArea)
         return greenLeafArea
 
 ########### 2021 UW 추가 #################################################################################
@@ -114,25 +105,20 @@ class BD():      # balting development
     def calcVerdvs(self, Ta):
         Ta  = max(Ta, 0.01)
         rate = np.exp(-1*(np.log(Ta/optVer)**4))
-        # print(rate)
         self.sumVer += rate * conv
         self.verdvs = max(1, self.sumVer/satVer)
-        # print(self.verdvs)
-
+        
     def calcTempdvs(self, Ta):
         Ta  = max(Ta, 0.01)
         rate = np.exp(-1*(np.log(Ta/optTemp)**2))
-        # print(rate)
         self.sumTemp += rate * conv
         sumTemp = self.sumTemp
-        # print(sumTemp)
         if sumTemp >= satRep:
             tempdvs = 2.0
         elif sumTemp > satTemp:
             tempdvs = 1 + (sumTemp - satTemp) /(satRep - satTemp)
         else:
             tempdvs = sumTemp / satTemp
-        # print(tempdvs)
         self.tempdvs = tempdvs
         
 
@@ -146,7 +132,6 @@ class BD():      # balting development
             leafRate = self.earlyRateLN(Ta)                    ###""" 2021 UW 추가 """
         else:                                                  ###""" 2021 UW 추가 """
             leafRate = self.midRateLN(Ta)*self.pLeafForm       ###""" 2021 UW 추가 """
-            # print(leafRate)
         self.leafNumber += leafRate
         leafNumber = self.leafNumber
 
@@ -154,7 +139,6 @@ class BD():      # balting development
         self.calcVerdvs(Ta)
         self.calcTempdvs(Ta)
         self.dvs = self.tempdvs * self.verdvs
-        # print(self.dvs)
         
 #         # no increasing leaf number by aging
 #         dvs = self.dvs
